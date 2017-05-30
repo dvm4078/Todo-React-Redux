@@ -57,6 +57,25 @@ const todoController = {
         }
       })
     })
+  },
+  getDone(req, res){
+    Todo.find({done: true}, function (err, todo) {
+      if(err){
+        return res.json({success: false, todo: todo, message: 'getCheck fail'});
+      }else {
+        return res.json({success: true, todo: todo, message: 'getCheck success'});
+      }
+    })
+  },
+  getActive(req, res){
+    Todo.find({done: false}, function (err, todo) {
+      if(err){
+        return res.json({success: false, todo: todo, message: 'getCheck fail'});
+      }else {
+        return res.json({success: true, todo: todo, message: 'getCheck success'});
+      }
+    })
   }
 }
+
 module.exports = todoController;

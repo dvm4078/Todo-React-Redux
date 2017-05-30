@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import $ from "jquery";
-import {setTodo, editTodo, updateTodo, changeEditTodoValue} from "../redux/actions";
+import {setTodo, editTodo, filterSearch, updateTodo, changeEditTodoValue, filterDone, filterActive, filterAll} from "../redux/actions";
 class Layout extends React.Component{
   constructor(props){
     super(props);
@@ -13,6 +13,10 @@ class Layout extends React.Component{
     this.handleChangeEditTodo = this.handleChangeEditTodo.bind(this);
     this.editItem = this.editItem.bind(this);
     this.handleDoneTodo = this.handleDoneTodo.bind(this);
+    this.filterDone = this.filterDone.bind(this);
+    this.filterActive = this.filterActive.bind(this);
+    this.filterAll = this.filterAll.bind(this);
+    this.filterSearch = this.filterSearch.bind(this);
   }
   componentWillMount(){
     this.getTodo();
@@ -92,14 +96,37 @@ class Layout extends React.Component{
       }
     })
   }
+
+  filterDone() {
+    this.props.filterDone();
+  }
+  filterActive(){
+    this.props.filterActive();
+  }
+  filterAll(){
+    this.props.filterAll();
+  }
+  filterSearch(event){
+    event.preventDefault();
+    const value = document.getElementById('search-todo').value;
+    this.props.filterSearch(value);
+  }
   render(){
     return(
       <div className="container">
         <div className="row">
           <h1 className="text-center">Todo</h1>
           <form onSubmit={this.addTodo} style={{marginTop: '30px'}}>
-            <input type="text" id="add-todo" className="form-control"/>
-          </form>
+            <input placeholder="Add Todo" type="text" id="add-todo" className="form-control"/>
+          </form >
+          <div style={{marginTop: '10px'}}>
+            <input onChange={this.filterSearch} id="search-todo" placeholder="Search" type="text" className="form-control"/>
+          </div>
+          <div style={{marginTop: '10px'}}>
+            <button onClick={this.filterAll} type="button" className="btn btn-success">All</button>
+            <button onClick={this.filterActive} type="button" className="btn btn-success">Active</button>
+            <button onClick={this.filterDone} type="button" className="btn btn-success">Completed</button>
+          </div>
           <div style={{marginTop: '20px'}}>
             <ul className="list-group">
               {this.props.todoApp.todo.map((todoItem, index) => {
@@ -126,6 +153,6 @@ function mapStateToProps(state) {
   return{todoApp: state.todo}
 }
 function mapDispatchProps(dispatch) {
-  return bindActionCreators ({setTodo, editTodo, updateTodo, changeEditTodoValue}, dispatch);
+  return bindActionCreators ({setTodo, editTodo, filterSearch, updateTodo, changeEditTodoValue, filterDone, filterActive, filterAll}, dispatch);
 }
 export default connect (mapStateToProps, mapDispatchProps)(Layout);

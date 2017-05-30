@@ -1,4 +1,4 @@
-import {SET_TODO, EDIT_TODO, UPDATE_TODO, CHANGE_EDIT_TODO_VALUE} from './constants';
+import {SET_TODO, FILTER_SEARCH, EDIT_TODO, UPDATE_TODO, CHANGE_EDIT_TODO_VALUE, FILTER_DONE, FILTER_ALL, FILTER_ACTIVE} from './constants';
 
 export const setTodo = (payload) => {
   return{
@@ -22,5 +22,26 @@ export const changeEditTodoValue = (value) => {
   return{
     type: CHANGE_EDIT_TODO_VALUE,
     payload: value
+  }
+};
+export const filterDone = () => {
+  return {
+    type: FILTER_DONE
+  }
+}
+export const filterActive = () => {
+  return {
+    type: FILTER_ACTIVE
+  }
+}
+export const filterAll = () => {
+  return {
+    type: FILTER_ALL
+  }
+}
+export const filterSearch = (value) => {
+  return {
+    type: FILTER_SEARCH,
+    value
   }
 }
